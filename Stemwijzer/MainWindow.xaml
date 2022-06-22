@@ -40,22 +40,21 @@
                 </Grid.ColumnDefinitions>
                 <RadioButton Checked="Partijen_OnChecked" IsChecked="True" Grid.Column="0" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Partijen" Foreground="Black" FontWeight="Bold"/>
                 <RadioButton Checked="Themas_OnChecked" Grid.Column="1" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Thema's" Foreground="Black" FontWeight="Bold"/>
-                <RadioButton Grid.Column="2" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Standpunten" Foreground="Black" FontWeight="Bold"/>
-                <RadioButton Grid.Column="3" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Verkiezingssoorten" Foreground="Black" FontWeight="Bold"/>
-                <RadioButton Grid.Column="4" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Verkiezingen" Foreground="Black" FontWeight="Bold"/>
-                <RadioButton Grid.Column="5" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Verkiezingspartijen" Foreground="Black" FontWeight="Bold"/>
-
+                <RadioButton Checked="Standpunten_OnChecked" Grid.Column="2" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Standpunten" Foreground="Black" FontWeight="Bold"/>
+                <RadioButton Checked="Verkiezingssoorten_OnChecked" Grid.Column="3" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Verkiezingssoorten" Foreground="Black" FontWeight="Bold"/>
+                <RadioButton Checked="Verkiezingen_OnChecked" Grid.Column="4" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Verkiezingen" Foreground="Black" FontWeight="Bold"/>
+                <RadioButton Checked="Verkiezingspartijen_OnChecked" Grid.Column="5" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Verkiezingspartijen" Foreground="Black" FontWeight="Bold"/>
             </Grid>
 
             <DataGrid Name ="Partijen" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="4" Margin="0,0,0,5">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding partij_id}" IsReadOnly="True" Header="Partij ID" Width="*"/>
+                    <DataGridTextColumn Binding="{Binding partij_id}" IsReadOnly="True" Header="Partij ID" Width="0.5*"/>
                     <DataGridTextColumn Binding="{Binding naam}" Header="Naam" Width="*"/>
                     <DataGridTextColumn Binding="{Binding adres}" Header="Adres" Width="*"/>
                     <DataGridTextColumn Binding="{Binding postcode}" Header="Postcode" Width="*"/>
                     <DataGridTextColumn Binding="{Binding gemeente}" Header="Gemeente" Width="*"/>
-                    <DataGridTextColumn Binding="{Binding emailadres}" Header="E-mail adres" Width="*"/>
-                    <DataGridTextColumn Binding="{Binding telefoonnummer}" Header="Telefoonnummer" Width="*"/>
+                    <DataGridTextColumn Binding="{Binding emailadres}" Header="E-mail adres" Width="1.5*"/>
+                    <DataGridTextColumn Binding="{Binding telefoonnummer}" Header="Telefoonnummer" Width="1.5*"/>
                 </DataGrid.Columns>
             </DataGrid>
             <DataGrid Visibility="Hidden" Name ="Themas" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="4" Margin="0,0,0,5">
@@ -64,10 +63,30 @@
                     <DataGridTextColumn Binding="{Binding thema}" Header="Thema" Width="8*"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid Visibility="Hidden" Name ="Themas" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="4" Margin="0,0,0,5">
+            <DataGrid Visibility="Hidden" Name ="Standpunten" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="4" Margin="0,0,0,5">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding thema_id}" IsReadOnly="True" Header="Thema ID" Width="3*"/>
-                    <DataGridTextColumn Binding="{Binding thema}" Header="Thema" Width="8*"/>
+                    <DataGridTextColumn Binding="{Binding standpunt_id}" IsReadOnly="True" Header="Standpunt ID" Width="*"/>
+                    <DataGridTextColumn Binding="{Binding thema_id}" Header="Thema ID" Width="*"/>
+                    <DataGridTextColumn Binding="{Binding standpunt}" Header="Standpunt" Width="6*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid Visibility="Hidden" Name ="Verkiezingssoorten" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="4" Margin="0,0,0,5">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding verkiezingsoort_id}" IsReadOnly="True" Header="Verkiezingsoort ID" Width="3*"/>
+                    <DataGridTextColumn Binding="{Binding verkiezingsoort}" Header="Verkiezingsoort" Width="8*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid Visibility="Hidden" Name ="Verkiezingen" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="4" Margin="0,0,0,5">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding verkiezing_id}" IsReadOnly="True" Header="Verkiezing ID" Width="*"/>
+                    <DataGridTextColumn Binding="{Binding verkiezingsoortID}" Header="Verkiezingsoort ID" Width="2*"/>
+                    <DataGridTextColumn Binding="{Binding datum}" Header="Datum" Width="5*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid Visibility="Hidden" Name ="Verkiezingspartijen" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="4" Margin="0,0,0,5">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding partij_id}" IsReadOnly="True" Header="Partij ID" Width="*"/>
+                    <DataGridTextColumn Binding="{Binding verkiezingID}" Header="Verkiezing ID" Width="2*"/>
                 </DataGrid.Columns>
             </DataGrid>
 
