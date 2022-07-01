@@ -13,5 +13,6 @@ namespace F1WPF
     /// </summary>
     public partial class App : Application
     {
+        
     }
 }

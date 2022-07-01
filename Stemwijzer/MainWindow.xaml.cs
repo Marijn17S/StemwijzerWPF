@@ -37,9 +37,16 @@ namespace Stemwijzer
             loadVerkiezingspartijen();
 
             activeTable = Partijen;
+
+
         }
 
         // READ
+
+        /*public void loadAll()
+        {
+
+        }*/
 
         public void loadPartijen()
         {
@@ -83,14 +90,20 @@ namespace Stemwijzer
             Verkiezingspartijen.ItemsSource = data;
         }
 
+        public void loadTable(string table, DataGrid dg)
+        {
+            var data = db.getData(table);
+            dg.ItemsSource = data;
+        }
+
         // CREATE
 
-        private void addButton_Click(object sender, RoutedEventArgs e)
+        private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             string id;
             if (!(activeTable.SelectedItem is DataRowView selected)) return;
 
-            if (activeTable.Name == "Partijen")
+            if (activeTable.Name.Equals("Partijen"))
             {
                 string naam = selected.Row.ItemArray[1].ToString();
                 string adres = selected.Row.ItemArray[2].ToString();
@@ -102,37 +115,45 @@ namespace Stemwijzer
                     string.IsNullOrEmpty(postcode) || string.IsNullOrEmpty(gemeente) || 
                     string.IsNullOrEmpty(emailadres) || string.IsNullOrEmpty(telefoonnummer)) return;
                 MessageBox.Show(db.AddPartij(naam, adres, postcode, gemeente, emailadres, telefoonnummer) ? "Gelukt!" : "Er ging iets mis");
+                loadPartijen();
             }
-            else if (activeTable.Name == "Themas")
+            else if (activeTable.Name.Equals("Themas"))
             {
-                id = selected.Row.ItemArray[0].ToString();
-                MessageBox.Show(db.AddThema(id) ? "Gelukt" : "Mislukt");
-            }
-            else if (activeTable.Name == "Standpunten")
-            {
-                id = selected.Row.ItemArray[0].ToString();
                 string standpunt = selected.Row.ItemArray[1].ToString();
-                MessageBox.Show(db.AddStandpunt(id, standpunt) ? "Gelukt" : "Mislukt");
+                MessageBox.Show(db.AddThema(standpunt) ? "Gelukt" : "Mislukt");
+                loadThemas();
             }
-            else if (activeTable.Name == "Verkiezingssoorten")
+            else if (activeTable.Name.Equals("Standpunten"))
+            {
+                id = selected.Row.ItemArray[1].ToString();
+                string standpunt = selected.Row.ItemArray[2].ToString();
+                MessageBox.Show(db.AddStandpunt(id, standpunt) ? "Gelukt" : "Mislukt");
+                loadStandpunten();
+            }
+            else if (activeTable.Name.Equals("Verkiezingssoorten"))
             {
                 string verkiezingsoort = selected.Row.ItemArray[1].ToString();
                 MessageBox.Show(db.AddVerkiezingsoort(verkiezingsoort) ? "Gelukt" : "Mislukt");
+                loadVerkiezingssoorten();
             }
-            else if (activeTable.Name == "Verkiezingen")
+            else if (activeTable.Name.Equals("Verkiezingen"))
+            {
+                id = selected.Row.ItemArray[1].ToString();
+                ContentPresenter content = activeTable.Columns[2].GetCellContent(activeTable.SelectedItem) as ContentPresenter;
+                var template = content.ContentTemplate;
+                DatePicker dp = template.FindName("DatePick", content) as DatePicker;
+                var date = MySqlTimeFormat(Convert.ToDateTime(dp.Text));
+                MessageBox.Show(db.AddVerkiezing(id, date) ? "Gelukt" : "Mislukt");
+                loadVerkiezingen();
+                return;
+            }
+            else if (activeTable.Name.Equals("Verkiezingspartijen"))
             {
                 id = selected.Row.ItemArray[0].ToString();
-
-                MessageBox.Show(db.AddVerkiezing(id, MySqlTimeFormat(DateTime.Now)) ? "Gelukt" : "Mislukt");
+                string verkiezingID = selected.Row.ItemArray[1].ToString();
+                MessageBox.Show(db.AddVerkiezingspartij(id, verkiezingID) ? "Gelukt" : "Mislukt");
+                loadVerkiezingspartijen();
             }
-            else if (activeTable.Name == "Verkiezingspartijen")
-            {
-                id = selected.Row.ItemArray[0].ToString();
-                MessageBox.Show(db.AddVerkiezingspartij(id) ? "Gelukt" : "Mislukt");
-            }
-
-            loadPartijen();
-            loadThemas();
         }
 
         // UPDATE
@@ -141,7 +162,7 @@ namespace Stemwijzer
         {
             string id;
             if (!(activeTable.SelectedItem is DataRowView selected)) return;
-            if (activeTable.Name == "Partijen")
+            if (activeTable.Name.Equals("Partijen"))
             {
                 id = selected.Row.ItemArray[0].ToString();
                 string naam = selected.Row.ItemArray[1].ToString();
@@ -155,51 +176,103 @@ namespace Stemwijzer
                     string.IsNullOrEmpty(emailadres) || string.IsNullOrEmpty(telefoonnummer)) return;
                 MessageBox.Show(db.UpdatePartij(id, naam, adres, postcode, gemeente, emailadres, telefoonnummer) ? "Het is gelukt" : "Het is mislukt", "Uitvoering", MessageBoxButton.OK, MessageBoxImage.Information);
                 loadPartijen();
+                return;
             }
-            else if (activeTable.Name == "Themas")
+            else if (activeTable.Name.Equals("Themas"))
             {
                 id = selected.Row.ItemArray[0].ToString();
                 string thema = selected.Row.ItemArray[1].ToString();
                 if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(thema)) return;
                 MessageBox.Show(db.UpdateThema(id, thema) ? "Het is gelukt" : "Het is mislukt", "Uitvoering", MessageBoxButton.OK, MessageBoxImage.Information);
                 loadThemas();
+                return;
             }
-            else return;
+            else if (activeTable.Name.Equals("Standpunten"))
+            {
+                id = selected.Row.ItemArray[0].ToString();
+                string standpunt = selected.Row.ItemArray[2].ToString();
+                MessageBox.Show(db.UpdateStandpunt(id, standpunt) ? "Gelukt" : "Mislukt");
+                loadStandpunten();
+                return;
+            }
+            else if (activeTable.Name.Equals("Verkiezingssoorten"))
+            {
+                id = selected.Row.ItemArray[0].ToString();
+                string verkiezingsoort = selected.Row.ItemArray[1].ToString();
+                MessageBox.Show(db.UpdateVerkiezingsoort(id, verkiezingsoort) ? "Gelukt" : "Mislukt");
+                loadVerkiezingssoorten();
+                return;
+            }
+            else if (activeTable.Name.Equals("Verkiezingen"))
+            {
+                id = selected.Row.ItemArray[0].ToString();
+                string soortID = selected.Row.ItemArray[1].ToString();
+                ContentPresenter content = activeTable.Columns[2].GetCellContent(activeTable.SelectedItem) as ContentPresenter;
+                var template = content.ContentTemplate;
+                DatePicker dp = template.FindName("DatePick", content) as DatePicker;
+                var date = MySqlTimeFormat(Convert.ToDateTime(dp.Text));
+                MessageBox.Show(db.UpdateVerkiezing(id, soortID, date) ? "Gelukt" : "Mislukt");
+                loadVerkiezingen();
+                return;
+            }
+            else if (activeTable.Name.Equals("Verkiezingspartijen"))
+            {
+                id = selected.Row.ItemArray[0].ToString();
+                string verkiezingID = selected.Row.ItemArray[1].ToString();
+                MessageBox.Show(db.UpdateVerkiezingspartij(id, verkiezingID) ? "Gelukt" : "Mislukt");
+                loadVerkiezingspartijen();
+                return;
+            }
+            return;
         }
 
         // DELETE
 
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            int id;
             if (!(activeTable.SelectedItem is DataRowView selected)) return;
+            string id = selected.Row.ItemArray[0].ToString();
 
-            if (activeTable.Name == "Partijen")
+            if (activeTable.Name.Equals("Partijen"))
             {
-                id = Convert.ToInt32(selected.Row.ItemArray[0]);
                 MessageBox.Show(db.DeletePartij(id) ? "Gelukt" : "Mislukt");
+                //MessageBox.Show(db.DeleteRow(id, "partij", "partij_id") ? "Gelukt" : "Mislukt");
                 loadPartijen();
             }
-            else if (activeTable.Name == "Themas")
+            else if (activeTable.Name.Equals("Themas"))
             {
-                id = Convert.ToInt32(selected.Row.ItemArray[0]);
-                MessageBox.Show(db.DeleteThema(id) ? "Gelukt" : "Mislukt");
+                MessageBox.Show(db.DeleteRow(id, "thema", "thema_id") ? "Gelukt" : "Mislukt");
                 loadThemas();
+            }
+            else if (activeTable.Name.Equals("Standpunten"))
+            {
+                MessageBox.Show(db.DeleteRow(id, "standpunt", "standpunt_id") ? "Gelukt" : "Mislukt");
+                loadStandpunten();
+            }
+            else if (activeTable.Name.Equals("Verkiezingssoorten"))
+            {
+                MessageBox.Show(db.DeleteRow(id, "verkiezingsoort", "verkiezingsoort_id") ? "Gelukt" : "Mislukt");
+                loadVerkiezingssoorten();
+            }
+            else if (activeTable.Name.Equals("Verkiezingen"))
+            {
+                MessageBox.Show(db.DeleteRow(id, "verkiezing", "verkiezing_id") ? "Gelukt" : "Mislukt");
+                loadVerkiezingen();
+            }
+            else if (activeTable.Name.Equals("Verkiezingspartijen"))
+            {
+                MessageBox.Show(db.DeleteRow(id, "partij_verkiezing", "partij_id") ? "Gelukt" : "Mislukt");
+                loadVerkiezingspartijen();
             }
         }
 
         // SWITCHING
 
         private void Partijen_OnChecked(object sender, RoutedEventArgs e) { ActivateDataGrid(Partijen); }
-
         private void Themas_OnChecked(object sender, RoutedEventArgs e) { ActivateDataGrid(Themas); }
-
         private void Standpunten_OnChecked(object sender, RoutedEventArgs e) { ActivateDataGrid(Standpunten); }
-
         private void Verkiezingssoorten_OnChecked(object sender, RoutedEventArgs e) { ActivateDataGrid(Verkiezingssoorten); }
-
         private void Verkiezingen_OnChecked(object sender, RoutedEventArgs e) { ActivateDataGrid(Verkiezingen); }
-
         private void Verkiezingspartijen_OnChecked(object sender, RoutedEventArgs e) { ActivateDataGrid(Verkiezingspartijen); }
 
         // METHODS
@@ -226,6 +299,8 @@ namespace Stemwijzer
             if (dg.Name == "Verkiezingspartijen") loadVerkiezingspartijen();
         }
 
-        private string MySqlTimeFormat(DateTime dt) { return dt.ToString("yyyy-MM-dd"); }
+        private string MySqlTimeFormat(DateTime date) { return date.ToString("yyyy-MM-dd"); }
+        private string MySqlDateFormat(DateTime date) { return date.ToString("yyyy-MM-dd"); }
+        // 
     }
 }

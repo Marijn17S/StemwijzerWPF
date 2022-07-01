@@ -13,6 +13,8 @@ namespace Stemwijzer.Classes
     {
         private MySqlConnection _connection = new MySqlConnection("Server=5.255.90.119;Database=verkiezingenprj3;Uid=school;Pwd=NlZR+3!?*q&-S@X4X1;SslMode=None;PORT=3306;");
 
+        // READ
+
         public DataView getData(string table)
         {
             _connection.Open();
@@ -20,16 +22,14 @@ namespace Stemwijzer.Classes
             try
             {
                 MySqlCommand cmd = _connection.CreateCommand();
-                //cmd.CommandText = "SELECT d.driver_id, d.name, d.car_number, d.team_id, t.teamname, d.teammate_carnumber, tm.driver_id as teammate_id, tm.name as tmname FROM drivers d INNER JOIN teams t on d.team_id = t.team_id INNER JOIN drivers tm ON tm.teammate_carnumber = d.car_number ORDER BY d.driver_id";
                 cmd.CommandText = $"SELECT * from {table}";
-                //cmd.Parameters.AddWithValue("@table", table);
                 MySqlDataReader reader = cmd.ExecuteReader();
 
                 uitslag.Load(reader);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
+                MessageBox.Show(ex.ToString());
             }
             finally
             {
@@ -39,31 +39,7 @@ namespace Stemwijzer.Classes
             return uitslag.DefaultView;
         }
 
-        public DataView getPartijen()
-        {
-            _connection.Open();
-            DataTable uitslag = new DataTable();
-            try
-            {
-                MySqlCommand cmd = _connection.CreateCommand();
-                //cmd.CommandText = "SELECT d.driver_id, d.name, d.car_number, d.team_id, t.teamname, d.teammate_carnumber, tm.driver_id as teammate_id, tm.name as tmname FROM drivers d INNER JOIN teams t on d.team_id = t.team_id INNER JOIN drivers tm ON tm.teammate_carnumber = d.car_number ORDER BY d.driver_id";
-                cmd.CommandText = "SELECT * from partij";
-
-                MySqlDataReader reader = cmd.ExecuteReader();
-
-                uitslag.Load(reader);
-            }
-            catch (Exception)
-            {
-
-            }
-            finally
-            {
-                _connection.Close();
-            }
-
-            return uitslag.DefaultView;
-        }
+        // CREATE
 
         public bool AddPartij(string naam, string adres, string postcode, string gemeente, string emailadres, string telefoonnummer)
         {
@@ -82,8 +58,9 @@ namespace Stemwijzer.Classes
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.ToString());
                 return false;
             }
             finally
@@ -104,8 +81,9 @@ namespace Stemwijzer.Classes
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.ToString());
                 return false;
             }
             finally
@@ -127,8 +105,9 @@ namespace Stemwijzer.Classes
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.ToString());
                 return false;
             }
             finally
@@ -148,8 +127,9 @@ namespace Stemwijzer.Classes
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.ToString());
                 return false;
             }
             finally
@@ -170,8 +150,9 @@ namespace Stemwijzer.Classes
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.ToString());
                 return false;
             }
             finally
@@ -180,20 +161,22 @@ namespace Stemwijzer.Classes
             }
         }
 
-        public bool AddVerkiezingspartij(string verkiezingID)
+        public bool AddVerkiezingspartij(string partij_id, string verkiezingID)
         {
             _connection.Open();
             try
             {
                 MySqlCommand cmd = _connection.CreateCommand();
-                cmd.CommandText = "INSERT INTO partij_verkiezing (verkiezingID) VALUES (@verkiezingID)";
+                cmd.CommandText = "INSERT INTO partij_verkiezing (partij_id, verkiezingID) VALUES (@partij_id, @verkiezingID)";
+                cmd.Parameters.AddWithValue("@partij_id", partij_id);
                 cmd.Parameters.AddWithValue("@verkiezingID", verkiezingID);
                 cmd.ExecuteNonQuery();
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.ToString());
                 return false;
             }
             finally
@@ -201,6 +184,8 @@ namespace Stemwijzer.Classes
                 _connection.Close();
             }
         }
+
+        // UPDATE
 
         public bool UpdatePartij(string id, string naam, string adres, string postcode, string gemeente, string emailadres, string telefoonnummer)
         {
@@ -253,7 +238,106 @@ namespace Stemwijzer.Classes
             }
         }
 
-        public bool DeletePartij(int id)
+        public bool UpdateStandpunt(string standpunt_id, string standpunt)
+        {
+            _connection.Open();
+            try
+            {
+                MySqlCommand cmd = _connection.CreateCommand();
+                cmd.CommandText = "UPDATE standpunt SET standpunt = @standpunt WHERE standpunt_id = @standpunt_id";
+                cmd.Parameters.AddWithValue("@standpunt_id", standpunt_id);
+                cmd.Parameters.AddWithValue("@standpunt", standpunt);
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                return false;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+        }
+
+        public bool UpdateVerkiezingsoort(string id, string verkiezingsoort)
+        {
+            _connection.Open();
+            try
+            {
+                MySqlCommand cmd = _connection.CreateCommand();
+                cmd.CommandText = "UPDATE verkiezingsoort SET verkiezingsoort = @verkiezingsoort WHERE verkiezingsoort_id = @verkiezingsoort_id";
+                cmd.Parameters.AddWithValue("@verkiezingsoort_id", id);
+                cmd.Parameters.AddWithValue("@verkiezingsoort", verkiezingsoort);
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                return false;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+        }
+
+        public bool UpdateVerkiezing(string id, string verkiezingsoortID, string datum)
+        {
+            MessageBox.Show(verkiezingsoortID);
+            _connection.Open();
+            try
+            {
+                MySqlCommand cmd = _connection.CreateCommand();
+                cmd.CommandText = "UPDATE verkiezing SET verkiezingsoortID = @verkiezingsoortID, datum = @datum WHERE verkiezing_id = @verkiezing_id";
+                // Datum toevoegen aan query met datum picker control in column
+                cmd.Parameters.AddWithValue("@verkiezing_id", id);
+                cmd.Parameters.AddWithValue("@verkiezingsoortID", verkiezingsoortID);
+                cmd.Parameters.AddWithValue("@datum", datum);
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                return false;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+        }
+
+        public bool UpdateVerkiezingspartij(string partij_id, string verkiezingID)
+        {
+            _connection.Open();
+            try
+            {
+                MySqlCommand cmd = _connection.CreateCommand();
+                cmd.CommandText = "UPDATE partij_verkiezing SET partij_id = @partij_id WHERE verkiezingID = @verkiezingID";
+                cmd.Parameters.AddWithValue("@partij_id", partij_id);
+                cmd.Parameters.AddWithValue("@verkiezingID", verkiezingID);
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                return false;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+        }
+
+        /*public bool DeletePartij(int id)
         {
             _connection.Open();
             try
@@ -273,22 +357,51 @@ namespace Stemwijzer.Classes
             {
                 _connection.Close();
             }
-        }
+        }*/
 
-        public bool DeleteThema(int id)
+        // DELETE
+        public bool DeleteRow(string id, string table, string identifier)
         {
             _connection.Open();
             try
             {
                 MySqlCommand cmd = _connection.CreateCommand();
-                cmd.CommandText = "DELETE FROM teams WHERE team_id = @id";
+                cmd.CommandText = $"DELETE FROM {table} WHERE {identifier} = @id";
                 cmd.Parameters.AddWithValue("@id", id);
                 cmd.ExecuteNonQuery();
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+        }
+
+        public bool DeletePartij(string id)
+        {
+            _connection.Open();
+            try
+            {
+                MySqlCommand cmd = _connection.CreateCommand();
+                cmd.CommandText = $"DELETE FROM partij_standpunt WHERE partij_id = @id";
+                cmd.Parameters.AddWithValue("@id", id);
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = $"DELETE FROM partij_verkiezing WHERE partij_id = @id";
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = $"DELETE FROM partij WHERE partij_id = @id";
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
                 return false;
             }
             finally

@@ -13,10 +13,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition MinHeight="15" MaxHeight="32" Height="*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="4*"/>
                 <RowDefinition MinHeight="28" MaxHeight="50" Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -38,15 +35,15 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <RadioButton Checked="Partijen_OnChecked" IsChecked="True" Grid.Column="0" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Partijen" Foreground="Black" FontWeight="Bold"/>
-                <RadioButton Checked="Themas_OnChecked" Grid.Column="1" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Thema's" Foreground="Black" FontWeight="Bold"/>
-                <RadioButton Checked="Standpunten_OnChecked" Grid.Column="2" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Standpunten" Foreground="Black" FontWeight="Bold"/>
-                <RadioButton Checked="Verkiezingssoorten_OnChecked" Grid.Column="3" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Verkiezingssoorten" Foreground="Black" FontWeight="Bold"/>
-                <RadioButton Checked="Verkiezingen_OnChecked" Grid.Column="4" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Verkiezingen" Foreground="Black" FontWeight="Bold"/>
-                <RadioButton Checked="Verkiezingspartijen_OnChecked" Grid.Column="5" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Verkiezingspartijen" Foreground="Black" FontWeight="Bold"/>
+                <RadioButton Checked="Partijen_OnChecked" IsChecked="True" Grid.Column="0" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Partijen" Foreground="Black" FontWeight="Bold" FontFamily="Consolas"/>
+                <RadioButton Checked="Themas_OnChecked" Grid.Column="1" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Thema's" Foreground="Black" FontWeight="Bold" FontFamily="Consolas"/>
+                <RadioButton Checked="Standpunten_OnChecked" Grid.Column="2" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Standpunten" Foreground="Black" FontWeight="Bold" FontFamily="Consolas"/>
+                <RadioButton Checked="Verkiezingssoorten_OnChecked" Grid.Column="3" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Verkiezingssoorten" Foreground="Black" FontWeight="Bold" FontFamily="Consolas"/>
+                <RadioButton Checked="Verkiezingen_OnChecked" Grid.Column="4" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Verkiezingen" Foreground="Black" FontWeight="Bold" FontFamily="Consolas"/>
+                <RadioButton Checked="Verkiezingspartijen_OnChecked" Grid.Column="5" GroupName="TabelSwitch" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Verkiezingspartijen" Foreground="Black" FontWeight="Bold" FontFamily="Consolas"/>
             </Grid>
 
-            <DataGrid Name ="Partijen" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="4" Margin="0,0,0,5">
+            <DataGrid Visibility="Visible" Name="Partijen" RowBackground="DarkSlateGray" Foreground="White" Background="Transparent" FontFamily="Consolas" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding partij_id}" IsReadOnly="True" Header="Partij ID" Width="0.5*"/>
                     <DataGridTextColumn Binding="{Binding naam}" Header="Naam" Width="*"/>
@@ -57,35 +54,43 @@
                     <DataGridTextColumn Binding="{Binding telefoonnummer}" Header="Telefoonnummer" Width="1.5*"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid Visibility="Hidden" Name ="Themas" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="4" Margin="0,0,0,5">
+            <DataGrid Visibility="Hidden" Name="Themas" Background="Transparent" FontFamily="Consolas" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding thema_id}" IsReadOnly="True" Header="Thema ID" Width="3*"/>
                     <DataGridTextColumn Binding="{Binding thema}" Header="Thema" Width="8*"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid Visibility="Hidden" Name ="Standpunten" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="4" Margin="0,0,0,5">
+            <DataGrid Visibility="Hidden" Name="Standpunten" Background="Transparent" FontFamily="Consolas" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding standpunt_id}" IsReadOnly="True" Header="Standpunt ID" Width="*"/>
                     <DataGridTextColumn Binding="{Binding thema_id}" Header="Thema ID" Width="*"/>
                     <DataGridTextColumn Binding="{Binding standpunt}" Header="Standpunt" Width="6*"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid Visibility="Hidden" Name ="Verkiezingssoorten" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="4" Margin="0,0,0,5">
+            <DataGrid Visibility="Hidden" Name ="Verkiezingssoorten" Background="Transparent" FontFamily="Consolas" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding verkiezingsoort_id}" IsReadOnly="True" Header="Verkiezingsoort ID" Width="3*"/>
                     <DataGridTextColumn Binding="{Binding verkiezingsoort}" Header="Verkiezingsoort" Width="8*"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid Visibility="Hidden" Name ="Verkiezingen" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="4" Margin="0,0,0,5">
+            <DataGrid Visibility="Hidden" Name="Verkiezingen" Background="Transparent" FontFamily="Consolas" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding verkiezing_id}" IsReadOnly="True" Header="Verkiezing ID" Width="*"/>
-                    <DataGridTextColumn Binding="{Binding verkiezingsoortID}" Header="Verkiezingsoort ID" Width="2*"/>
-                    <DataGridTextColumn Binding="{Binding datum}" Header="Datum" Width="5*"/>
+                    <DataGridTextColumn Binding="{Binding verkiezing_id}" IsReadOnly="True" Header="Verkiezing ID" Width="1.5*"/>
+                    <DataGridTextColumn Binding="{Binding verkiezingsoortID}" Header="Verkiezingsoort ID" Width="1.75*"/>
+                    <!--<DataGridComboBoxColumn Header="Verkiezing soort" Width="5*"/>-->
+                    <!--ItemsSource="{Binding Source={StaticResource myEnum}}" SelectedItemBinding="{Binding verkiezingsoort}"-->
+                    <DataGridTemplateColumn Header="Datum" Width="5*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <DatePicker x:Name="DatePick" FirstDayOfWeek="Monday" Text="{Binding datum, StringFormat='{}{0:yyyy-MM-dd}'}" SelectedDateFormat="Short"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid Visibility="Hidden" Name ="Verkiezingspartijen" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="4" Margin="0,0,0,5">
+            <DataGrid Visibility="Hidden" Name="Verkiezingspartijen" Background="Transparent" FontFamily="Consolas" FontSize="13" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding partij_id}" IsReadOnly="True" Header="Partij ID" Width="*"/>
+                    <DataGridTextColumn Binding="{Binding partij_id}" Header="Partij ID" Width="*"/>
                     <DataGridTextColumn Binding="{Binding verkiezingID}" Header="Verkiezing ID" Width="2*"/>
                 </DataGrid.Columns>
             </DataGrid>
@@ -112,9 +117,9 @@
                 </Button.Template>
             </Button>-->
 
-            <Button Name="addButton" Grid.Column="2" Grid.Row="5" Click="addButton_Click" Content="Toevoegen" Margin="4"/>
-            <Button Name="updateButton" Grid.Column="3" Grid.Row="5" Click="UpdateButton_Click" Content="Bijwerken" Margin="4"/>
-            <Button Name="deleteButton" Grid.Column="4" Grid.Row="5" Click="Delete_Click" Content="Verwijderen" Margin="4"/>
+            <Button Name="addButton" Grid.Column="2" Grid.Row="5" Click="AddButton_Click" Content="Toevoegen" Margin="4" FontFamily="Consolas" Background="DarkSlateGray" Foreground="AliceBlue"/>
+            <Button Name="updateButton" Grid.Column="3" Grid.Row="5" Click="UpdateButton_Click" Content="Bijwerken" Margin="4" FontFamily="Consolas" Background="DarkSlateGray" Foreground="AliceBlue"/>
+            <Button Name="deleteButton" Grid.Column="4" Grid.Row="5" Click="DeleteButton_Click" Content="Verwijderen" Margin="4" FontFamily="Consolas" Background="DarkSlateGray" Foreground="AliceBlue"/>
         </Grid>
     </Grid>
 </Window>
