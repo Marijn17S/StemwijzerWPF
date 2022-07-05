@@ -43,11 +43,6 @@ namespace Stemwijzer
 
         // READ
 
-        /*public void loadAll()
-        {
-
-        }*/
-
         public void loadPartijen()
         {
             const string table = "partij";
